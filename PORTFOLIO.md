@@ -4,7 +4,7 @@
 
 ## 線上展示
 
-[GitHub Pages]([https://<你的帳號>.github.io/<你的repo名稱>/](https://wckuo-mcu.github.io/copilot-workshop-agent-mode-mcp/))
+[GitHub Pages](https://wckuo-mcu.github.io/copilot-workshop-agent-mode-mcp/)
 
 > 請將上方網址替換成實際的 GitHub Pages 網址。
 
