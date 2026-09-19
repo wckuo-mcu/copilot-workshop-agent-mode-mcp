@@ -5,8 +5,13 @@ const todoList = document.querySelector("#todo-list");
 const emptyState = document.querySelector("#empty-state");
 const remainingCount = document.querySelector("#remaining-count");
 const clearCompletedButton = document.querySelector("#clear-completed");
+const themeToggle = document.querySelector("#theme-toggle");
+const filterButtons = document.querySelectorAll("[data-filter]");
 
 let todos = loadTodos();
+let currentFilter = "all";
+const themeStorageKey = "offline-todo-theme";
+const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
 // 從 localStorage 讀取待辦資料，資料損壞時回傳空清單。
 function loadTodos() {
@@ -23,12 +28,44 @@ function saveTodos() {
   localStorage.setItem(storageKey, JSON.stringify(todos));
 }
 
+// 取得使用者的主題偏好，沒有手動設定時就使用作業系統偏好。
+function getPreferredTheme() {
+  return localStorage.getItem(themeStorageKey) || (systemThemeQuery.matches ? "dark" : "light");
+}
+
+// 套用主題並更新切換按鈕的圖示與文字。
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const isDark = theme === "dark";
+  themeToggle.textContent = isDark ? "☀️ 淺色模式" : "🌙 深色模式";
+  themeToggle.setAttribute("aria-label", isDark ? "切換至淺色模式" : "切換至深色模式");
+}
+
+// 依目前篩選條件取得要顯示的項目。
+function getVisibleTodos() {
+  if (currentFilter === "active") {
+    return todos.filter((todo) => !todo.completed);
+  }
+  if (currentFilter === "completed") {
+    return todos.filter((todo) => todo.completed);
+  }
+  return todos;
+}
+
 // 根據目前資料重新繪製清單與統計資訊。
 function renderTodos() {
   todoList.replaceChildren();
-  emptyState.hidden = todos.length > 0;
+  const visibleTodos = getVisibleTodos();
+  emptyState.hidden = visibleTodos.length > 0;
+  emptyState.textContent = visibleTodos.length > 0
+    ? ""
+    : currentFilter === "all"
+      ? "還沒有任何待辦事項,新增一個吧!"
+      : currentFilter === "active"
+        ? "太棒了!目前沒有未完成事項。"
+        : "目前還沒有已完成的事項。";
 
-  todos.forEach((todo) => {
+  visibleTodos.forEach((todo) => {
     const item = document.createElement("li");
     item.className = "todo-item";
     item.classList.toggle("completed", todo.completed);
@@ -93,4 +130,30 @@ clearCompletedButton.addEventListener("click", () => {
   renderTodos();
 });
 
+themeToggle.addEventListener("click", () => {
+  const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem(themeStorageKey, nextTheme);
+  applyTheme(nextTheme);
+});
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter;
+    filterButtons.forEach((filterButton) => {
+      const isActive = filterButton === button;
+      filterButton.classList.toggle("active", isActive);
+      filterButton.setAttribute("aria-pressed", String(isActive));
+    });
+    renderTodos();
+  });
+});
+
+// 使用者尚未手動選擇主題時，作業系統切換也會同步更新頁面。
+systemThemeQuery.addEventListener("change", () => {
+  if (!localStorage.getItem(themeStorageKey)) {
+    applyTheme(getPreferredTheme());
+  }
+});
+
+applyTheme(getPreferredTheme());
 renderTodos();

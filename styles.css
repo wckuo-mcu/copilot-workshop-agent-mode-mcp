@@ -8,9 +8,32 @@
   --color-muted: #718184;
   --color-border: #d9e5e2;
   --color-completed: #9aa9a8;
+  --color-input: #f8fbfa;
+  --color-button-text: #ffffff;
+  --color-danger: #b45454;
+  --color-card-border: rgba(255, 255, 255, 0.8);
+  --color-focus: rgba(33, 104, 105, 0.14);
   --shadow-card: 0 20px 45px rgba(38, 73, 71, 0.12);
   --radius-card: 24px;
   --radius-control: 12px;
+}
+
+[data-theme="dark"] {
+  --color-page: #172322;
+  --color-card: #223432;
+  --color-primary: #6bc1b4;
+  --color-primary-dark: #9bddd1;
+  --color-accent: #f4b879;
+  --color-text: #e7f2ef;
+  --color-muted: #a7bfba;
+  --color-border: #3c5651;
+  --color-completed: #78918c;
+  --color-input: #1b2c2a;
+  --color-button-text: #142422;
+  --color-danger: #f08c8c;
+  --color-card-border: rgba(107, 193, 180, 0.18);
+  --color-focus: rgba(107, 193, 180, 0.2);
+  --shadow-card: 0 20px 45px rgba(0, 0, 0, 0.28);
 }
 
 * {
@@ -23,7 +46,8 @@ body {
   padding: 40px 20px;
   color: var(--color-text);
   font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
-  background: radial-gradient(circle at top right, #dcece6 0, var(--color-page) 42%, #e7f0ed 100%);
+  background: radial-gradient(circle at top right, var(--color-card) 0, var(--color-page) 42%, var(--color-page) 100%);
+  transition: color 180ms ease, background 180ms ease;
 }
 
 button,
@@ -41,13 +65,20 @@ button {
   margin: 0 auto;
   padding: 40px;
   background: var(--color-card);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
 }
 
 .todo-header {
   margin-bottom: 28px;
+}
+
+.title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .eyebrow {
@@ -63,6 +94,22 @@ h1 {
   color: var(--color-primary-dark);
   font-size: clamp(2rem, 7vw, 2.65rem);
   line-height: 1.1;
+}
+
+.theme-toggle {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  color: var(--color-primary-dark);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  background: var(--color-input);
 }
 
 .subtitle {
@@ -82,7 +129,7 @@ h1 {
   flex: 1;
   padding: 13px 15px;
   color: var(--color-text);
-  background: #f8fbfa;
+  background: var(--color-input);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   outline: none;
@@ -91,12 +138,12 @@ h1 {
 
 .todo-form input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(33, 104, 105, 0.14);
+  box-shadow: 0 0 0 3px var(--color-focus);
 }
 
 .todo-form button {
   padding: 0 19px;
-  color: #fff;
+  color: var(--color-button-text);
   background: var(--color-primary);
   border: 0;
   border-radius: var(--radius-control);
@@ -108,6 +155,33 @@ h1 {
 .todo-form button:focus-visible {
   background: var(--color-primary-dark);
   transform: translateY(-1px);
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin: -10px 0 22px;
+}
+
+.filter-button {
+  padding: 7px 13px;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.88rem;
+}
+
+.filter-button:hover,
+.filter-button:focus-visible,
+.filter-button.active {
+  color: var(--color-primary-dark);
+  background: var(--color-input);
+  border-color: var(--color-border);
+}
+
+.filter-button.active {
+  font-weight: 700;
 }
 
 .todo-list {
@@ -162,7 +236,7 @@ h1 {
 
 .delete-button:hover,
 .delete-button:focus-visible {
-  color: #b45454;
+  color: var(--color-danger);
 }
 
 .empty-state {
