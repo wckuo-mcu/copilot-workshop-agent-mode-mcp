@@ -107,6 +107,8 @@ function renderTodos() {
   });
 
   const unfinishedCount = todos.filter((todo) => !todo.completed).length;
+  const completedCount = todos.length - unfinishedCount;
+  clearCompletedButton.disabled = completedCount === 0;
   remainingCount.textContent = `未完成:${unfinishedCount} 項`;
 }
 
@@ -156,6 +158,12 @@ todoForm.addEventListener("submit", (event) => {
 });
 
 clearCompletedButton.addEventListener("click", () => {
+  const completedCount = todos.filter((todo) => todo.completed).length;
+
+  if (completedCount === 0 || !window.confirm(`確定要清除 ${completedCount} 項已完成事項嗎？`)) {
+    return;
+  }
+
   todos = todos.filter((todo) => !todo.completed);
   saveTodos();
   renderTodos();

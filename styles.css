@@ -265,6 +265,12 @@ h1 {
   color: var(--color-primary);
 }
 
+.clear-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
