@@ -56,10 +56,14 @@ function getVisibleTodos() {
 
 function getEmptyMessage() {
   if (currentFilter === "active") {
-    return "目前沒有未完成的待辦事項。";
+    return todos.length > 0
+      ? "目前沒有未完成的待辦事項；其他項目可能被目前的篩選條件隱藏。"
+      : "目前沒有未完成的待辦事項。";
   }
   if (currentFilter === "completed") {
-    return "目前沒有已完成的待辦事項。";
+    return todos.length > 0
+      ? "目前沒有已完成的待辦事項；其他項目可能被目前的篩選條件隱藏。"
+      : "目前沒有已完成的待辦事項。";
   }
   return "還沒有任何待辦事項,新增一個吧!";
 }
