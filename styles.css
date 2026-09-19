@@ -1,6 +1,7 @@
 :root {
   --color-page: #eef4f1;
   --color-card: #ffffff;
+  --color-input: #f8fbfa;
   --color-primary: #216869;
   --color-primary-dark: #174b4d;
   --color-accent: #f0a868;
@@ -8,11 +9,8 @@
   --color-muted: #718184;
   --color-border: #d9e5e2;
   --color-completed: #9aa9a8;
-  --color-input: #f8fbfa;
-  --color-button-text: #ffffff;
   --color-danger: #b45454;
   --color-card-border: rgba(255, 255, 255, 0.8);
-  --color-focus: rgba(33, 104, 105, 0.14);
   --shadow-card: 0 20px 45px rgba(38, 73, 71, 0.12);
   --radius-card: 24px;
   --radius-control: 12px;
@@ -20,19 +18,17 @@
 
 [data-theme="dark"] {
   --color-page: #172322;
-  --color-card: #223432;
-  --color-primary: #6bc1b4;
-  --color-primary-dark: #9bddd1;
-  --color-accent: #f4b879;
+  --color-card: #223331;
+  --color-input: #1b2b29;
+  --color-primary: #6bc4b5;
+  --color-primary-dark: #9adace;
+  --color-accent: #f0b875;
   --color-text: #e7f2ef;
-  --color-muted: #a7bfba;
-  --color-border: #3c5651;
-  --color-completed: #78918c;
-  --color-input: #1b2c2a;
-  --color-button-text: #142422;
-  --color-danger: #f08c8c;
-  --color-card-border: rgba(107, 193, 180, 0.18);
-  --color-focus: rgba(107, 193, 180, 0.2);
+  --color-muted: #a9bfbb;
+  --color-border: #3b514e;
+  --color-completed: #758986;
+  --color-danger: #ef9696;
+  --color-card-border: rgba(107, 196, 181, 0.2);
   --shadow-card: 0 20px 45px rgba(0, 0, 0, 0.28);
 }
 
@@ -46,8 +42,8 @@ body {
   padding: 40px 20px;
   color: var(--color-text);
   font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
-  background: radial-gradient(circle at top right, var(--color-card) 0, var(--color-page) 42%, var(--color-page) 100%);
-  transition: color 180ms ease, background 180ms ease;
+  background: radial-gradient(circle at top right, var(--color-border) 0, var(--color-page) 42%, var(--color-page) 100%);
+  transition: background 180ms ease, color 180ms ease;
 }
 
 button,
@@ -81,6 +77,27 @@ button {
   gap: 16px;
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 0.8rem;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  color: var(--color-primary);
+  background: var(--color-input);
+  border-color: var(--color-primary);
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: var(--color-accent);
@@ -94,22 +111,6 @@ h1 {
   color: var(--color-primary-dark);
   font-size: clamp(2rem, 7vw, 2.65rem);
   line-height: 1.1;
-}
-
-.theme-toggle {
-  flex: 0 0 auto;
-  padding: 8px 10px;
-  color: var(--color-primary-dark);
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.theme-toggle:hover,
-.theme-toggle:focus-visible {
-  background: var(--color-input);
 }
 
 .subtitle {
@@ -138,12 +139,12 @@ h1 {
 
 .todo-form input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(33, 104, 105, 0.14);
 }
 
 .todo-form button {
   padding: 0 19px;
-  color: var(--color-button-text);
+  color: var(--color-page);
   background: var(--color-primary);
   border: 0;
   border-radius: var(--radius-control);
@@ -155,33 +156,6 @@ h1 {
 .todo-form button:focus-visible {
   background: var(--color-primary-dark);
   transform: translateY(-1px);
-}
-
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  margin: -10px 0 22px;
-}
-
-.filter-button {
-  padding: 7px 13px;
-  color: var(--color-muted);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  font-size: 0.88rem;
-}
-
-.filter-button:hover,
-.filter-button:focus-visible,
-.filter-button.active {
-  color: var(--color-primary-dark);
-  background: var(--color-input);
-  border-color: var(--color-border);
-}
-
-.filter-button.active {
-  font-weight: 700;
 }
 
 .todo-list {
@@ -200,6 +174,29 @@ h1 {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   animation: appear 180ms ease-out;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin: -8px 0 20px;
+}
+
+.filter-button {
+  padding: 7px 13px;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.88rem;
+}
+
+.filter-button:hover,
+.filter-button:focus-visible,
+.filter-button.active {
+  color: var(--color-primary);
+  background: var(--color-input);
+  border-color: var(--color-primary);
 }
 
 .todo-check {
@@ -304,5 +301,13 @@ h1 {
 
   .todo-form button {
     padding: 0 15px;
+  }
+
+  .theme-toggle {
+    padding: 7px 8px;
+  }
+
+  .theme-label {
+    display: none;
   }
 }
